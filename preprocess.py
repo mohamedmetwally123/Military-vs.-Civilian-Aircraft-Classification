@@ -24,7 +24,8 @@ from PIL import Image
 # Settings you may want to change
 # ---------------------------------------------------------------------------
 
-# The subset CSV to process (made by make_subset.py)
+# The subset CSV to process (made by make_subset.py).
+# Only used when you run this file directly - the notebook passes in its own CSV path.
 SUBSET_CSV = "data/subsets/subset_2000_8d56f0.csv"
 
 # Where the processed images are saved
@@ -64,9 +65,11 @@ def process_image(in_path, out_path):
 # ---------------------------------------------------------------------------
 # Process every image in the subset CSV
 # ---------------------------------------------------------------------------
-def preprocess():
+def preprocess(subset_csv=SUBSET_CSV):
+    # subset_csv: which subset CSV to process (defaults to the setting above)
+
     # Output folder is named after the CSV, e.g. data/processed/subset_2000_8d56f0
-    subset_name = os.path.splitext(os.path.basename(SUBSET_CSV))[0]
+    subset_name = os.path.splitext(os.path.basename(subset_csv))[0]
     out_dir = os.path.join(PROCESSED_DIR, subset_name)
 
     # If this subset was already processed, don't do it again
@@ -75,7 +78,7 @@ def preprocess():
         return out_dir
 
     # Read the list of images from the CSV
-    with open(SUBSET_CSV) as f:
+    with open(subset_csv) as f:
         rows = list(csv.DictReader(f))
 
     for i, row in enumerate(rows):

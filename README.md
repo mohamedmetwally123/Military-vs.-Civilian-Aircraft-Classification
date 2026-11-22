@@ -11,6 +11,11 @@ A CNN, trained from scratch with PyTorch, that sorts aircraft photos into **3 cl
 Data: [Ahnuf/Military_Aircraft_Detection_Classification_Image_Dataset](https://huggingface.co/datasets/Ahnuf/Military_Aircraft_Detection_Classification_Image_Dataset) on Hugging Face.
 Everything runs from one notebook: **`main.ipynb`**.
 
+## Authors
+- Jarod Chan
+- Mohamed Metwally
+- Giovanna Sanchirico
+
 ## Setup
 
 ### What you need

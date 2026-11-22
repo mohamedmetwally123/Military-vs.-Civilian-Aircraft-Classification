@@ -21,7 +21,7 @@ import random
 # ---------------------------------------------------------------------------
 
 # How many images the subset should have in total (train + val + test)
-TOTAL = 2000
+TOTAL = 4450
 
 # Where the unzipped dataset lives (it has train/, val/, test/ folders inside)
 RAW_DIR = "data/raw/dataset"
@@ -30,7 +30,7 @@ RAW_DIR = "data/raw/dataset"
 SUBSET_DIR = "data/subsets"
 
 # What fraction of the subset each class gets (should add up to 1)
-CLASS_WEIGHTS = {"military": 1 / 3, "civilian": 1 / 3, "neither": 1 / 3}
+CLASS_WEIGHTS = {"military": 1840 / 4450, "civilian": 1840 / 4450, "neither": 770 / 4450}
 
 # What fraction of the subset goes to each split (should add up to 1)
 SPLIT_RATIOS = {"train": 0.8, "val": 0.1, "test": 0.1}

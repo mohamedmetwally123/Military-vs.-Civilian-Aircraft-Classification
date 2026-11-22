@@ -1,2 +1,4 @@
 data/
 .venv/
+runs/
+.DS_Store

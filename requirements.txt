@@ -3,3 +3,6 @@ huggingface_hub
 matplotlib
 jupyter
 ipykernel
+torch
+torchvision
+scikit-learn

@@ -1,0 +1,38 @@
+{
+  "settings": {
+    "subset": "subset_4450_b187ce",
+    "image_size": 128,
+    "batch_size": 32,
+    "seed": 42,
+    "channels": [
+      32,
+      64,
+      128,
+      256
+    ],
+    "dropout": 0.3,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0005,
+    "epochs": 100,
+    "patience": 20
+  },
+  "class_names": [
+    "civilian",
+    "military",
+    "neither"
+  ],
+  "mean": [
+    0.5015376777839903,
+    0.5385182437524162,
+    0.571061075127874
+  ],
+  "std": [
+    0.2285306894859499,
+    0.21639080940454927,
+    0.24888060803832343
+  ],
+  "image_size": 128,
+  "best_epoch": 72,
+  "best_val_loss": 0.2683886960651098,
+  "finished": true
+}

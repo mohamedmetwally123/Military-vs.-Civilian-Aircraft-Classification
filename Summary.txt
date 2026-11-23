@@ -1,0 +1,56 @@
+Summary:
+We verified the full workflow for our PyTorch CNN, which classifies photos as military aircraft, commercial airliners,
+ or `neither`, the category for birds and drones. The notebook selects a reproducible dataset subset, preprocesses the
+ images, and either trains the CNN or loads a saved checkpoint. It displays a confusion matrix, reports precision and
+ recall by class, and breaks out bird and drone results separately. After testing class weighting and two fine-tuning
+ approaches, we bundled the 1× fine-tuned checkpoint and made it the notebook default. We verified that it correctly
+ classified **399 of 445 images (89.7%)** on the existing test split, compared with **388 of 445 (87.2%)** for the
+ original model. It also correctly labeled **59 of 77** bird and drone photos, up from **45 of 77**. We kept the
+ original checkpoint selectable because it had the highest validation accuracy. We updated the README with setup and
+ execution instructions, expected outputs, correctness checks, and team progress. Our main remaining task is to compare
+ the models on a fresh labeled photo set to see whether the improvement holds.
+
+
+
+What remains:
+-Compare the original and 1× fine-tuned models on a fresh labeled photo set. The existing test split has been used in
+several experiments.
+-Review the military-versus-`neither` errors and collect more varied bird and drone photos. That confusion accounted
+for 40 of 46 mistakes in the default model’s test run.
+
+Challenges Encountered:
+-The training set had 616 neither images, compared with 1,472 in each aircraft class. Fine-tuning improved bird and
+drone recognition from 45 to 59 correct out of 77, with 18 still labeled as military.
+-The original model led on validation, while the 1× fine-tune led on the existing test split. That made the choice
+of evaluation metric consequential.
+-The dataset download and CPU training were time-consuming. Bundled checkpoints let the team demonstrate and verify
+inference without repeating training.
+
+
+
+Member Progress:
+
+Mohamed: I built an image classifier from scratch that looks at a photo and decides whether it shows a military aircraft,
+a civilian airliner, or neither. I took it all the way from raw data to a CNN working model: I downloaded and did
+pre-processing to the images, designed the network, and set up training so that it saves the best version and doesn't redo
+work that's already finished. Our first model got about 79% right. I learned along the way that letting it train longer
+helped a little, but giving it more than twice the data helped the most, and that pushed it to about 90%.
+
+I pushed everything on GitHub, including the trained models, so nobody has to retrain anything, and I wrote a README with
+setup instructions and a short document explaining what's left. The next steps are to look at where the model gets things
+wrong, see what it actually learned to pay attention to, and run one final test to get our honest score.
+
+
+Jarod: Using the image classifier that Mohamed generated, I created an analysis section that shows the model’s errors by
+image type. This is followed by a section that illustrates the model’s filter layers, feature maps, and heat maps to show
+which features the model used most in order to classify images. I also added a confusion matrix to show the precision,
+recall, and f1 score of each image category.
+
+
+
+Gia:
+I tested and improved our CNN for classifying military aircraft, commercial airliners, and bird or drone photos. After
+comparing class weighting and fine-tuning approaches, I made the 1× fine-tuned model the notebook default and verified
+that it raised accuracy on the existing test set from 87.2% to 89.7%, correctly classifying 59 of 77 bird and drone
+photos versus 45 before. I also updated the README with setup instructions, correctness checks, and team progress. My
+next step is to evaluate the models on fresh labeled photos.

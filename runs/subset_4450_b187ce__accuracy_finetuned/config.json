@@ -1,0 +1,47 @@
+{
+  "settings": {
+    "subset": "subset_4450_b187ce",
+    "image_size": 128,
+    "batch_size": 32,
+    "seed": 42,
+    "channels": [
+      32,
+      64,
+      128,
+      256
+    ],
+    "dropout": 0.3,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0005,
+    "epochs": 60,
+    "patience": 20
+  },
+  "class_names": [
+    "civilian",
+    "military",
+    "neither"
+  ],
+  "image_size": 128,
+  "mean": [
+    0.5015376777839903,
+    0.5385182437524162,
+    0.571061075127874
+  ],
+  "std": [
+    0.2285306894859499,
+    0.21639080940454927,
+    0.24888060803832343
+  ],
+  "initial_checkpoint": "runs/subset_4450_b187ce__7a9e53/best.pt",
+  "fine_tuning": {
+    "method": "classifier_only",
+    "epochs": 60,
+    "learning_rate": 0.001,
+    "loss_weight": 1.0,
+    "train_transform": "evaluation transform and cached frozen features",
+    "checkpoint_selection": "highest overall validation accuracy, earliest epoch on a tie"
+  },
+  "best_epoch": 20,
+  "best_val_accuracy": 0.8921348314606742,
+  "finished": true
+}

@@ -1,0 +1,77 @@
+{
+  "test_accuracy": 0.8764044943820225,
+  "best_val_accuracy": 0.8921348314606742,
+  "class_names": [
+    "civilian",
+    "military",
+    "neither"
+  ],
+  "neither_subgroups": {
+    "birds": {
+      "recall": 0.5789473684210527,
+      "predictions": {
+        "civilian": 0,
+        "military": 16,
+        "neither": 22
+      }
+    },
+    "drones": {
+      "recall": 0.5897435897435898,
+      "predictions": {
+        "civilian": 0,
+        "military": 16,
+        "neither": 23
+      }
+    }
+  },
+  "confusion_matrix": [
+    [
+      181,
+      3,
+      0
+    ],
+    [
+      4,
+      164,
+      16
+    ],
+    [
+      0,
+      32,
+      45
+    ]
+  ],
+  "per_class": {
+    "civilian": {
+      "precision": 0.9783783783783784,
+      "recall": 0.9836956521739131,
+      "f1-score": 0.981029810298103,
+      "support": 184.0
+    },
+    "military": {
+      "precision": 0.8241206030150754,
+      "recall": 0.8913043478260869,
+      "f1-score": 0.856396866840731,
+      "support": 184.0
+    },
+    "neither": {
+      "precision": 0.7377049180327869,
+      "recall": 0.5844155844155844,
+      "f1-score": 0.6521739130434783,
+      "support": 77.0
+    },
+    "accuracy": 0.8764044943820225,
+    "macro avg": {
+      "precision": 0.8467346331420802,
+      "recall": 0.8198051948051948,
+      "f1-score": 0.8298668633941041,
+      "support": 445.0
+    },
+    "weighted avg": {
+      "precision": 0.8729507668874609,
+      "recall": 0.8764044943820225,
+      "f1-score": 0.8725930334784118,
+      "support": 445.0
+    }
+  }
+}

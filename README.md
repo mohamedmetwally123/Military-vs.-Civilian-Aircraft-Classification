@@ -64,7 +64,7 @@ Click **Run All**. What happens on the **first** run:
 | 3. Subset | picks the 4,450 images used for the project (same pick on every computer) | seconds |
 | 4. Preprocess | crops the watermark strip and resizes the images into `data/processed/` | a few minutes |
 | 6. Load data | computes the normalization numbers, builds the batches | seconds |
-| 8. Train or load | **loads the trained model from `runs/`** (no training needed) | seconds |
+| 8. Train or load | loads the bundled 1× fine-tuned checkpoint with the original subset and settings | seconds |
 
 Later runs skip the download, subset and preprocessing steps, because they are already done.
 
@@ -78,11 +78,56 @@ Section 8 checks whether a model was **already trained on this subset with these
 
 "Same subset and settings" means: the subset from `make_subset.py` (e.g. `subset_4450_b187ce`) plus the
 settings in sections 6-8 (`IMAGE_SIZE`, `BATCH_SIZE`, `SEED`, `CHANNELS`, `DROPOUT`, `LEARNING_RATE`,
-`WEIGHT_DECAY`, `EPOCHS`, `PATIENCE`). Together they decide the run folder name,
-e.g. `runs/subset_4450_b187ce__7a9e53/`.
+`WEIGHT_DECAY`, `EPOCHS`, `PATIENCE`, `NEITHER_LOSS_WEIGHT`).
 
-With the files as they are in this repo, the model **is** already trained (it's included in `runs/`),
-so you only need to run the notebook, not train anything.
+With the original settings, the notebook loads the [1× fine-tuned checkpoint](runs/subset_4450_b187ce__unweighted_finetuned/).
+It scored 89.7% on the existing test split. In section 8.1, set `BUNDLED_CHECKPOINT = "baseline"`
+to load the original model (90.1% validation accuracy), or use `"accuracy_finetuned"` to load the
+[classifier-only experiment selected by overall validation accuracy](runs/subset_4450_b187ce__accuracy_finetuned/). Setting `NEITHER_LOSS_WEIGHT = 2.0` creates a separate
+training run that doubles the loss contribution of each bird or drone image. Section 11 reports
+recall and prediction counts for birds and drones separately.
+
+The [weighted fine-tuning run](runs/subset_4450_b187ce__weighted_head/) contains the earlier 2× experiment.
+It froze the feature extractor and selected the epoch by validation F1 for `neither`.
+
+## Demonstration and correctness checks
+
+The core algorithm in sections 6–8 batches preprocessed RGB images, extracts features with four
+convolutional blocks, and produces three class scores. During training, cross-entropy and
+backpropagation update the CNN. For the demonstration, section 8 loads the saved weights, section 9
+shows validation predictions, and section 11 scores and displays predictions on the held-out images.
+
+Run sections 1–8, 9.1, and 11 with the original settings and the default 1× checkpoint to reproduce
+these checks on the original dataset split:
+
+| Check | Expected result |
+|---|---|
+| Three-class inference on the 445-image test split | 399 correct. The diagonal of the confusion matrix is 183 commercial, 157 military, and 59 `neither`. |
+| Bird and drone label mapping and predictions | `bg_birds` and `bg_drones` map to `neither`. Section 11 reports 29 of 38 birds and 30 of 39 drones correctly labeled `neither`. |
+
+Section 11 writes the [test report](runs/subset_4450_b187ce__unweighted_finetuned/test_results.json)
+and [confusion matrix](runs/subset_4450_b187ce__unweighted_finetuned/test_confusion_matrix.png).
+
+## Team progress
+
+### Contributions
+
+| Member | Repository record |
+|---|---|
+| Mohamed Metwally | Added dataset sampling and preprocessing, the notebook's data loading and CNN training, bundled checkpoints, and setup instructions. |
+| Jarod Chan | Added the model evaluation sections to the notebook. |
+| Giovanna Sanchirico | Tested and fine-tuned the classifier, verified the default checkpoint, and documented the test results and team progress. |
+
+### What remains
+
+- Evaluate the original and 1× fine-tuned checkpoints on a fresh labeled photo set. The team has already used the existing test split for several comparisons.
+- Review military-versus-`neither` errors and collect more varied examples of birds and drones. That confusion accounted for 40 of 46 mistakes in the default checkpoint's evaluation.
+
+### Challenges encountered
+
+- The training set had 616 `neither` photos and 1,472 photos in each aircraft class. The original model classified only 45 of 77 bird and drone photos correctly. Fine-tuning raised that to 59 of 77, but 18 were still classified as military.
+- The model with the highest validation accuracy differed from the model with the highest score on the existing test split. The original scored 90.1% on validation, and the 1× fine-tune scored 89.7% on the existing test split.
+- Dataset download and CPU training took substantial time. Bundled checkpoints let the team reproduce inference and testing without repeating training.
 
 ## Good to know
 - **Cells marked `DEMO ONLY` or `CHECK ONLY`** only show what is happening. They are safe to skip.
